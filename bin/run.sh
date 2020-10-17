@@ -34,7 +34,7 @@ done
 
 docker stop $NAME || true
 docker system prune -f
-docker run -d -it "${DOCKER_RUN_ARGS[@]}" --name $NAME $RUN_IMAGE:$VERSION $*
+docker run -d -it "${DOCKER_RUN_ARGS[@]}" --name $NAME $RUN_IMAGE:$VERSION "$@"
 
-echo "Attaching to container. To detach CTRL-P CTRL-Q."
-docker attach $NAME
+echo "To attach to container run 'docker attach $NAME'. To detach CTRL-P CTRL-Q."
+[ "$DOCKER_ATTACH" = "true" ] && docker attach $NAME
