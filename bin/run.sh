@@ -37,4 +37,4 @@ docker system prune -f
 docker run -d -it "${DOCKER_RUN_ARGS[@]}" --name $NAME $RUN_IMAGE:$VERSION "$@"
 
 echo "To attach to container run 'docker attach $NAME'. To detach CTRL-P CTRL-Q."
-[ "$DOCKER_ATTACH" = "true" ] && docker attach $NAME
+[ "$DOCKER_ATTACH" != "true" ] || docker attach $NAME
