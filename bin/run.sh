@@ -22,6 +22,7 @@ MNT=${MNT:-$BWD/mnt}
 DOCKER_RUN_ARGS+=( -v $MNT/var/run/sshd:/var/run/sshd )
 DOCKER_RUN_ARGS+=( -v $MNT/root/.ssh/authorized_keys:/root/.ssh/authorized_keys )
 DOCKER_RUN_ARGS+=( -v $MNT/etc/ssh/sshd_config:/etc/ssh/sshd_config )
+DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
 
 mkdir -p $MNT/etc/ssh $MNT/var/run/sshd || true
 
