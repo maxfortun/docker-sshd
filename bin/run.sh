@@ -18,20 +18,20 @@ while read port; do
 	DOCKER_RUN_ARGS+=( -p $hostPort:$port )
 done < <(docker image inspect -f '{{json .Config.ExposedPorts}}' $imageId|jq -r 'keys[]')
 
-MNT=${MNT:-$BWD/mnt}
 HOST_MNT=${HOST_MNT:-$BWD/mnt}
+GUEST_MNT=${GUEST_MNT:-$BWD/mnt}
 
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/var/run/sshd:/var/run/sshd )
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/root/.ssh:/root/.ssh )
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/etc/ssh/sshd_config:/etc/ssh/sshd_config )
-DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
+DOCKER_RUN_ARGS+=( -v $GUEST_MNT/var/run/sshd:/var/run/sshd )
+DOCKER_RUN_ARGS+=( -v $GUEST_MNT/root/.ssh:/root/.ssh )
+DOCKER_RUN_ARGS+=( -v $GUEST_MNT/etc/ssh/sshd_config:/etc/ssh/sshd_config )
+DOCKER_RUN_ARGS+=( -v $HOST_MNT:/mnt/host )
 
-mkdir -p $HOST_MNT/etc/ssh $HOST_MNT/var/run/sshd || true
+mkdir -p $GUEST_MNT/etc/ssh $GUEST_MNT/var/run/sshd || true
 
 for algo in rsa dsa ecdsa ed25519; do
 	file="/etc/ssh/ssh_host_${algo}_key"
-	[ -f "$HOST_MNT/$file" ] || ssh-keygen -t $algo -f "$HOST_MNT/$file" -N ''
-	DOCKER_RUN_ARGS+=( -v $HOST_MNT/$file:$file )
+	[ -f "$GUEST_MNT/$file" ] || ssh-keygen -t $algo -f "$GUEST_MNT/$file" -N ''
+	DOCKER_RUN_ARGS+=( -v $GUEST_MNT/$file:$file )
 done
 
 docker stop $NAME || true
