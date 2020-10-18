@@ -22,7 +22,7 @@ MNT=${MNT:-$BWD/mnt}
 HOST_MNT=${HOST_MNT:-$BWD/mnt}
 
 DOCKER_RUN_ARGS+=( -v $HOST_MNT/var/run/sshd:/var/run/sshd )
-DOCKER_RUN_ARGS+=( -v $HOST_MNT/root/.ssh/authorized_keys:/root/.ssh/authorized_keys )
+DOCKER_RUN_ARGS+=( -v $HOST_MNT/root/.ssh:/root/.ssh )
 DOCKER_RUN_ARGS+=( -v $HOST_MNT/etc/ssh/sshd_config:/etc/ssh/sshd_config )
 DOCKER_RUN_ARGS+=( -v $MNT:/mnt/data )
 
