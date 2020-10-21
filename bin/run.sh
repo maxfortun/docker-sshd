@@ -34,7 +34,7 @@ for algo in rsa dsa ecdsa ed25519; do
 	DOCKER_RUN_ARGS+=( -v $GUEST_MNT/$file:$file )
 done
 
-docker update --restart=no $NAME
+docker update --restart=no $NAME || true
 docker stop $NAME || true
 docker system prune -f
 docker run -d -it --restart=always "${DOCKER_RUN_ARGS[@]}" --name $NAME $RUN_IMAGE:$VERSION "$@"
