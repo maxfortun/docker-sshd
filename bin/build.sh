@@ -7,7 +7,7 @@ popd
 
 . $SWD/setenv.sh
 
-docker build ${DOCKER_BUILD_ARGS[*]} --rm -t "$REPO/$NAME:$VERSION" docker
+docker build ${DOCKER_BUILD_ARGS[*]} --rm -t "$REPO/$NAME:$VERSION" $BWD/docker
 
 dockerImages=$(docker images "$REPO/$NAME" -f "before=$REPO/$NAME:$VERSION" -q)
 [ -n "$dockerImages" ] && docker rmi -f $dockerImages || true
